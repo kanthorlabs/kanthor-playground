@@ -1,0 +1,5 @@
+{
+  "packageName": "openapi",
+  "enumClassPrefix": true,
+  "withCustomMiddlewareFunction": true
+}

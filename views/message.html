@@ -1,0 +1,25 @@
+{{ if .MessageCount }} {{range $message := .Messages}}
+<div
+  class="list-group-item list-group-item-action flex-column align-items-start kanthor-message"
+  data-message-id="{{ $message.id }}"
+  data-message-timestamp="{{ $message.timestamp }}"
+  data-message-headers="{{ $message.headers }}"
+  data-message-body="{{ $message.body }}"
+  style="cursor: pointer"
+>
+  <div class="d-flex justify-content-between" data-message="{{ $message }}">
+    <p class="mb-1 kanthor-message-id">{{ $message.id }}</p>
+    <small class="kanthor-message-timestamp">{{ $message.timestamp }}</small>
+  </div>
+</div>
+{{end}} {{else}}
+<li class="list-group-item flex-column align-items-start" style="border: none">
+  <div class="d-flex justify-content-center">
+    <span class="loader"></span>
+  </div>
+</li>
+{{end}}
+
+<script>
+  prepare();
+</script>

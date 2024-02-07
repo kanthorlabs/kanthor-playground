@@ -1,0 +1,1628 @@
+{
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "SDK API",
+        "title": "Kanthor SDK API",
+        "termsOfService": "http://kanthorlabs.com/terms/",
+        "contact": {
+            "name": "Kanthor Support",
+            "url": "http://kanthorlabs.com/support",
+            "email": "support@kanthorlabs.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "2022.1201.1701"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/account/me": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "tags": [
+                    "account"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AccountGetRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/application": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "application"
+                ],
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "list by ids",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search keyword",
+                        "name": "_q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "limit returning records",
+                        "name": "_limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "current requesting page",
+                        "name": "_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationListRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "application"
+                ],
+                "parameters": [
+                    {
+                        "description": "application payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationCreateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationCreateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/application/{app_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "application"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "application id",
+                        "name": "app_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationGetRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "application"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "application id",
+                        "name": "app_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationDeleteRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "application"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "application id",
+                        "name": "app_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "application payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApplicationUpdateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/endpoint": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "application id",
+                        "name": "app_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "list by ids",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search keyword",
+                        "name": "_q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "limit returning records",
+                        "name": "_limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "current requesting page",
+                        "name": "_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointListRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "description": "endpoint payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EndpointCreateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointCreateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/endpoint/{ep_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "endpoint id",
+                        "name": "ep_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointGetRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "endpoint id",
+                        "name": "ep_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointDeleteRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "endpoint id",
+                        "name": "ep_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "endpoint payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EndpointUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointUpdateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/endpoint/{ep_id}/secret": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "endpoint id",
+                        "name": "ep_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointGetSecretRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/message": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "message"
+                ],
+                "parameters": [
+                    {
+                        "description": "message payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/MessageCreateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/MessageCreateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/rule": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint rule"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "application id",
+                        "name": "app_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "endpoint id",
+                        "name": "ep_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "csv",
+                        "description": "list by ids",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "search keyword",
+                        "name": "_q",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "limit returning records",
+                        "name": "_limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "current requesting page",
+                        "name": "_page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleListRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint rule"
+                ],
+                "parameters": [
+                    {
+                        "description": "rule payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleCreateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleCreateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/rule/{epr_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint rule"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "rule id",
+                        "name": "epr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleGetRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint rule"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "rule id",
+                        "name": "epr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleDeleteRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "WorkspaceId": []
+                    }
+                ],
+                "tags": [
+                    "endpoint rule"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "rule id",
+                        "name": "epr_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "rule payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EndpointRuleUpdateRes"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Account": {
+            "type": "object",
+            "required": [
+                "metadata",
+                "name",
+                "sub"
+            ],
+            "properties": {
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sub": {
+                    "type": "string"
+                }
+            }
+        },
+        "AccountGetRes": {
+            "type": "object",
+            "required": [
+                "account"
+            ],
+            "properties": {
+                "account": {
+                    "$ref": "#/definitions/Account"
+                }
+            }
+        },
+        "Application": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at",
+                "ws_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "ws_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApplicationCreateReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "default": "openapi"
+                }
+            }
+        },
+        "ApplicationCreateRes": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at",
+                "ws_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "ws_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApplicationDeleteRes": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at",
+                "ws_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "ws_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApplicationGetRes": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at",
+                "ws_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "ws_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApplicationListRes": {
+            "type": "object",
+            "required": [
+                "count",
+                "data"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Application"
+                    }
+                }
+            }
+        },
+        "ApplicationUpdateReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "ApplicationUpdateRes": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at",
+                "ws_id"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "ws_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Endpoint": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "created_at",
+                "id",
+                "method",
+                "name",
+                "updated_at",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointCreateReq": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "method",
+                "name",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string",
+                    "example": "POST"
+                },
+                "name": {
+                    "type": "string",
+                    "default": "POST httpbin"
+                },
+                "uri": {
+                    "type": "string",
+                    "example": "https://httpbin.org/post"
+                }
+            }
+        },
+        "EndpointCreateRes": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "created_at",
+                "id",
+                "method",
+                "name",
+                "secret_key",
+                "updated_at",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "secret_key": {
+                    "description": "To make the UI become friendly we will return the secret key after user create the new endpoint\nbut we don't want to return that key everytime user request for the endpoint\nuser must have specific permission to reveal the secret key of an endpoint",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointDeleteRes": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "created_at",
+                "id",
+                "method",
+                "name",
+                "updated_at",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointGetRes": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "created_at",
+                "id",
+                "method",
+                "name",
+                "updated_at",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointGetSecretRes": {
+            "type": "object",
+            "required": [
+                "secret_key"
+            ],
+            "properties": {
+                "secret_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointListRes": {
+            "type": "object",
+            "required": [
+                "count",
+                "data"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Endpoint"
+                    }
+                }
+            }
+        },
+        "EndpointRule": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "created_at",
+                "ep_id",
+                "exclusionary",
+                "id",
+                "name",
+                "priority",
+                "updated_at"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointRuleCreateReq": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "ep_id",
+                "exclusionary",
+                "name",
+                "priority"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string",
+                    "default": "any::"
+                },
+                "condition_source": {
+                    "type": "string",
+                    "default": "type"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "name": {
+                    "type": "string",
+                    "default": "passthrough"
+                },
+                "priority": {
+                    "type": "integer",
+                    "default": 100
+                }
+            }
+        },
+        "EndpointRuleCreateRes": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "created_at",
+                "ep_id",
+                "exclusionary",
+                "id",
+                "name",
+                "priority",
+                "updated_at"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointRuleDeleteRes": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "created_at",
+                "ep_id",
+                "exclusionary",
+                "id",
+                "name",
+                "priority",
+                "updated_at"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointRuleGetRes": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "created_at",
+                "ep_id",
+                "exclusionary",
+                "id",
+                "name",
+                "priority",
+                "updated_at"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointRuleListRes": {
+            "type": "object",
+            "required": [
+                "count",
+                "data"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EndpointRule"
+                    }
+                }
+            }
+        },
+        "EndpointRuleUpdateReq": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "exclusionary",
+                "name",
+                "priority"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointRuleUpdateRes": {
+            "type": "object",
+            "required": [
+                "condition_expression",
+                "condition_source",
+                "created_at",
+                "ep_id",
+                "exclusionary",
+                "id",
+                "name",
+                "priority",
+                "updated_at"
+            ],
+            "properties": {
+                "condition_expression": {
+                    "type": "string"
+                },
+                "condition_source": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "ep_id": {
+                    "type": "string"
+                },
+                "exclusionary": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EndpointUpdateReq": {
+            "type": "object",
+            "required": [
+                "method",
+                "name"
+            ],
+            "properties": {
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "EndpointUpdateRes": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "created_at",
+                "id",
+                "method",
+                "name",
+                "updated_at",
+                "uri"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "integer"
+                },
+                "uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "required": [
+                "error"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "MessageCreateReq": {
+            "type": "object",
+            "required": [
+                "app_id",
+                "body",
+                "headers",
+                "type"
+            ],
+            "properties": {
+                "app_id": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string",
+                    "default": "{\"ping\":true}"
+                },
+                "headers": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "example": "testing.debug"
+                }
+            }
+        },
+        "MessageCreateRes": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Authorization": {
+            "description": "[Bearer JWT_TOKEN] or [Basic base64(key:secret)]",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "WorkspaceId": {
+            "description": "The selected workspace id you are working with",
+            "type": "apiKey",
+            "name": "x-authorization-workspace",
+            "in": "header"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

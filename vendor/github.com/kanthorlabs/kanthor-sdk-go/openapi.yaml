@@ -1,0 +1,1067 @@
+basePath: /api
+consumes:
+- application/json
+definitions:
+  Account:
+    properties:
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+      name:
+        type: string
+      sub:
+        type: string
+    required:
+    - metadata
+    - name
+    - sub
+    type: object
+  AccountGetRes:
+    properties:
+      account:
+        $ref: '#/definitions/Account'
+    required:
+    - account
+    type: object
+  Application:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      ws_id:
+        type: string
+    required:
+    - created_at
+    - id
+    - name
+    - updated_at
+    - ws_id
+    type: object
+  ApplicationCreateReq:
+    properties:
+      name:
+        default: openapi
+        type: string
+    required:
+    - name
+    type: object
+  ApplicationCreateRes:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      ws_id:
+        type: string
+    required:
+    - created_at
+    - id
+    - name
+    - updated_at
+    - ws_id
+    type: object
+  ApplicationDeleteRes:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      ws_id:
+        type: string
+    required:
+    - created_at
+    - id
+    - name
+    - updated_at
+    - ws_id
+    type: object
+  ApplicationGetRes:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      ws_id:
+        type: string
+    required:
+    - created_at
+    - id
+    - name
+    - updated_at
+    - ws_id
+    type: object
+  ApplicationListRes:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/Application'
+        type: array
+    required:
+    - count
+    - data
+    type: object
+  ApplicationUpdateReq:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  ApplicationUpdateRes:
+    properties:
+      created_at:
+        type: integer
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      ws_id:
+        type: string
+    required:
+    - created_at
+    - id
+    - name
+    - updated_at
+    - ws_id
+    type: object
+  Endpoint:
+    properties:
+      app_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      uri:
+        type: string
+    required:
+    - app_id
+    - created_at
+    - id
+    - method
+    - name
+    - updated_at
+    - uri
+    type: object
+  EndpointCreateReq:
+    properties:
+      app_id:
+        type: string
+      method:
+        example: POST
+        type: string
+      name:
+        default: POST httpbin
+        type: string
+      uri:
+        example: https://httpbin.org/post
+        type: string
+    required:
+    - app_id
+    - method
+    - name
+    - uri
+    type: object
+  EndpointCreateRes:
+    properties:
+      app_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      secret_key:
+        description: |-
+          To make the UI become friendly we will return the secret key after user create the new endpoint
+          but we don't want to return that key everytime user request for the endpoint
+          user must have specific permission to reveal the secret key of an endpoint
+        type: string
+      updated_at:
+        type: integer
+      uri:
+        type: string
+    required:
+    - app_id
+    - created_at
+    - id
+    - method
+    - name
+    - secret_key
+    - updated_at
+    - uri
+    type: object
+  EndpointDeleteRes:
+    properties:
+      app_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      uri:
+        type: string
+    required:
+    - app_id
+    - created_at
+    - id
+    - method
+    - name
+    - updated_at
+    - uri
+    type: object
+  EndpointGetRes:
+    properties:
+      app_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      uri:
+        type: string
+    required:
+    - app_id
+    - created_at
+    - id
+    - method
+    - name
+    - updated_at
+    - uri
+    type: object
+  EndpointGetSecretRes:
+    properties:
+      secret_key:
+        type: string
+    required:
+    - secret_key
+    type: object
+  EndpointListRes:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/Endpoint'
+        type: array
+    required:
+    - count
+    - data
+    type: object
+  EndpointRule:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      created_at:
+        type: integer
+      ep_id:
+        type: string
+      exclusionary:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      priority:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - created_at
+    - ep_id
+    - exclusionary
+    - id
+    - name
+    - priority
+    - updated_at
+    type: object
+  EndpointRuleCreateReq:
+    properties:
+      condition_expression:
+        default: 'any::'
+        type: string
+      condition_source:
+        default: type
+        type: string
+      ep_id:
+        type: string
+      exclusionary:
+        default: false
+        type: boolean
+      name:
+        default: passthrough
+        type: string
+      priority:
+        default: 100
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - ep_id
+    - exclusionary
+    - name
+    - priority
+    type: object
+  EndpointRuleCreateRes:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      created_at:
+        type: integer
+      ep_id:
+        type: string
+      exclusionary:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      priority:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - created_at
+    - ep_id
+    - exclusionary
+    - id
+    - name
+    - priority
+    - updated_at
+    type: object
+  EndpointRuleDeleteRes:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      created_at:
+        type: integer
+      ep_id:
+        type: string
+      exclusionary:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      priority:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - created_at
+    - ep_id
+    - exclusionary
+    - id
+    - name
+    - priority
+    - updated_at
+    type: object
+  EndpointRuleGetRes:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      created_at:
+        type: integer
+      ep_id:
+        type: string
+      exclusionary:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      priority:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - created_at
+    - ep_id
+    - exclusionary
+    - id
+    - name
+    - priority
+    - updated_at
+    type: object
+  EndpointRuleListRes:
+    properties:
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/EndpointRule'
+        type: array
+    required:
+    - count
+    - data
+    type: object
+  EndpointRuleUpdateReq:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      exclusionary:
+        type: boolean
+      name:
+        type: string
+      priority:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - exclusionary
+    - name
+    - priority
+    type: object
+  EndpointRuleUpdateRes:
+    properties:
+      condition_expression:
+        type: string
+      condition_source:
+        type: string
+      created_at:
+        type: integer
+      ep_id:
+        type: string
+      exclusionary:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      priority:
+        type: integer
+      updated_at:
+        type: integer
+    required:
+    - condition_expression
+    - condition_source
+    - created_at
+    - ep_id
+    - exclusionary
+    - id
+    - name
+    - priority
+    - updated_at
+    type: object
+  EndpointUpdateReq:
+    properties:
+      method:
+        type: string
+      name:
+        type: string
+    required:
+    - method
+    - name
+    type: object
+  EndpointUpdateRes:
+    properties:
+      app_id:
+        type: string
+      created_at:
+        type: integer
+      id:
+        type: string
+      method:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: integer
+      uri:
+        type: string
+    required:
+    - app_id
+    - created_at
+    - id
+    - method
+    - name
+    - updated_at
+    - uri
+    type: object
+  Error:
+    properties:
+      error:
+        type: string
+    required:
+    - error
+    type: object
+  MessageCreateReq:
+    properties:
+      app_id:
+        type: string
+      body:
+        default: '{"ping":true}'
+        type: string
+      headers:
+        additionalProperties:
+          type: string
+        type: object
+      type:
+        example: testing.debug
+        type: string
+    required:
+    - app_id
+    - body
+    - headers
+    - type
+    type: object
+  MessageCreateRes:
+    properties:
+      id:
+        type: string
+    required:
+    - id
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+info:
+  contact:
+    email: support@kanthorlabs.com
+    name: Kanthor Support
+    url: http://kanthorlabs.com/support
+  description: SDK API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://kanthorlabs.com/terms/
+  title: Kanthor SDK API
+  version: 2022.1201.1701
+paths:
+  /account/me:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/AccountGetRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      tags:
+      - account
+  /application:
+    get:
+      parameters:
+      - collectionFormat: csv
+        description: list by ids
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: search keyword
+        in: query
+        name: _q
+        type: string
+      - default: 10
+        description: limit returning records
+        in: query
+        name: _limit
+        type: integer
+      - default: 0
+        description: current requesting page
+        in: query
+        name: _page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ApplicationListRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - application
+    post:
+      parameters:
+      - description: application payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ApplicationCreateReq'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/ApplicationCreateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - application
+  /application/{app_id}:
+    delete:
+      parameters:
+      - description: application id
+        in: path
+        name: app_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ApplicationDeleteRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - application
+    get:
+      parameters:
+      - description: application id
+        in: path
+        name: app_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ApplicationGetRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - application
+    patch:
+      parameters:
+      - description: application id
+        in: path
+        name: app_id
+        required: true
+        type: string
+      - description: application payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/ApplicationUpdateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ApplicationUpdateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - application
+  /endpoint:
+    get:
+      parameters:
+      - description: application id
+        in: query
+        name: app_id
+        type: string
+      - collectionFormat: csv
+        description: list by ids
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: search keyword
+        in: query
+        name: _q
+        type: string
+      - default: 10
+        description: limit returning records
+        in: query
+        name: _limit
+        type: integer
+      - default: 0
+        description: current requesting page
+        in: query
+        name: _page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointListRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+    post:
+      parameters:
+      - description: endpoint payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/EndpointCreateReq'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/EndpointCreateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+  /endpoint/{ep_id}:
+    delete:
+      parameters:
+      - description: endpoint id
+        in: path
+        name: ep_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointDeleteRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+    get:
+      parameters:
+      - description: endpoint id
+        in: path
+        name: ep_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointGetRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+    patch:
+      parameters:
+      - description: endpoint id
+        in: path
+        name: ep_id
+        required: true
+        type: string
+      - description: endpoint payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/EndpointUpdateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointUpdateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+  /endpoint/{ep_id}/secret:
+    get:
+      parameters:
+      - description: endpoint id
+        in: path
+        name: ep_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointGetSecretRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint
+  /message:
+    post:
+      parameters:
+      - description: message payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/MessageCreateReq'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/MessageCreateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - message
+  /rule:
+    get:
+      parameters:
+      - description: application id
+        in: query
+        name: app_id
+        type: string
+      - description: endpoint id
+        in: query
+        name: ep_id
+        type: string
+      - collectionFormat: csv
+        description: list by ids
+        in: query
+        items:
+          type: string
+        name: id
+        type: array
+      - description: search keyword
+        in: query
+        name: _q
+        type: string
+      - default: 10
+        description: limit returning records
+        in: query
+        name: _limit
+        type: integer
+      - default: 0
+        description: current requesting page
+        in: query
+        name: _page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointRuleListRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint rule
+    post:
+      parameters:
+      - description: rule payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/EndpointRuleCreateReq'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/EndpointRuleCreateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint rule
+  /rule/{epr_id}:
+    delete:
+      parameters:
+      - description: rule id
+        in: path
+        name: epr_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointRuleDeleteRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint rule
+    get:
+      parameters:
+      - description: rule id
+        in: path
+        name: epr_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointRuleGetRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint rule
+    patch:
+      parameters:
+      - description: rule id
+        in: path
+        name: epr_id
+        required: true
+        type: string
+      - description: rule payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/EndpointRuleUpdateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/EndpointRuleUpdateRes'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/Error'
+      security:
+      - Authorization: []
+      - WorkspaceId: []
+      tags:
+      - endpoint rule
+produces:
+- application/json
+securityDefinitions:
+  Authorization:
+    description: '[Bearer JWT_TOKEN] or [Basic base64(key:secret)]'
+    in: header
+    name: Authorization
+    type: apiKey
+  WorkspaceId:
+    description: The selected workspace id you are working with
+    in: header
+    name: x-authorization-workspace
+    type: apiKey
+swagger: "2.0"

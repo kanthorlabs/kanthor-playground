@@ -1,0 +1,89 @@
+name: UAT CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: UAT
+    if: ${{ startsWith(github.event.head_commit.message, 'ci') }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ">=1.21"
+
+  prepare:
+    runs-on: ubuntu-latest
+    environment: UAT
+    needs: [test]
+    outputs:
+      ENABLED_ECR: ${{ steps.CHECK_ECR.outputs.ENABLED }}
+      ENABLED_DOCKERHUB: ${{ steps.CHECK_DOCKERHUB.outputs.ENABLED }}
+      BUILD_ID: ${{ steps.BUILD_ID.outputs.ID }}
+    steps:
+      - id: CHECK_DOCKERHUB
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        if: "${{ env.DOCKERHUB_USERNAME != '' }}"
+        run: echo "ENABLED=true" >> $GITHUB_OUTPUT
+
+      - id: CHECK_ECR
+        env:
+          ECR_USERNAME: ${{ secrets.ECR_USERNAME }}
+        if: "${{ env.ECR_USERNAME != '' }}"
+        run: echo "ENABLED=true" >> $GITHUB_OUTPUT
+
+      - id: BUILD_ID
+        run: |
+          branch=${GITHUB_REF##*/}
+          sha=${GITHUB_SHA::8}
+          ts=$(date +%Y%m%d%H%M)
+          echo "ID=uat-${sha}-${ts}" >> $GITHUB_OUTPUT
+
+  dockerhub:
+    runs-on: ubuntu-latest
+    environment: UAT
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.ENABLED_DOCKERHUB == 'true' }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/kanthor-playground:${{ needs.prepare.outputs.BUILD_ID }}, ${{ secrets.DOCKERHUB_USERNAME }}/kanthor-playground:latest
+
+  ecr:
+    runs-on: ubuntu-latest
+    environment: UAT
+    needs: [prepare]
+    if: ${{ needs.prepare.outputs.ENABLED_ECR == 'true' }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Push to AWS ECR
+        run: |
+          docker build . --tag ${{ secrets.ECR_USERNAME }}/kanthor-playground:${{ needs.prepare.outputs.BUILD_ID }}
+          docker push ${{ secrets.ECR_USERNAME }}/kanthor-playground:${{ needs.prepare.outputs.BUILD_ID }}
+
+          docker build . --tag ${{ secrets.ECR_USERNAME }}/kanthor-playground:latest
+          docker push ${{ secrets.ECR_USERNAME }}/kanthor-playground:latest
